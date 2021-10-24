@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <title>XO | Game 👌</title>
+    <style>
+      *,
+      *::after,
+      *::before {
+        outline: none;
+        overscroll-behavior: contain;
+      }
+      :root {
+        --bg-red-color-selected: #ef4444;
+      }
+      body,
+      html {
+        font-family: "Rubik", "Almarai", sans-serif;
+      }
+      .single--card {
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        -webkit-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        -ms-transition: all 0.3s ease-in-out;
+        -o-transition: all 0.3s ease-in-out;
+      }
+      .single--card:hover {
+        transform: translateY(-4%);
+        -webkit-transform: translateY(-4%);
+        -moz-transform: translateY(-4%);
+        -ms-transform: translateY(-4%);
+        -o-transform: translateY(-4%);
+      }
+      .single--card span::after,
+      .single--card span::before {
+        position: absolute;
+        content: "";
+        top: 50%;
+        left: 50%;
+      }
+      .player--1::after,
+      .player--1::before {
+        height: 40px;
+        width: 4px;
+      }
+      .player--1::after {
+        border-radius: 9999px;
+        background-color: var(--bg-red-color-selected);
+        transform: translate(-50%, -50%) rotate(45deg);
+        -webkit-transform: translate(-50%, -50%) rotate(45deg);
+        -moz-transform: translate(-50%, -50%) rotate(45deg);
+        -ms-transform: translate(-50%, -50%) rotate(45deg);
+        -o-transform: translate(-50%, -50%) rotate(45deg);
+      }
+      .player--1::before {
+        border-radius: 9999px;
+        background-color: var(--bg-red-color-selected);
+        transform: translate(-50%, -50%) rotate(-45deg);
+        -webkit-transform: translate(-50%, -50%) rotate(-45deg);
+        -moz-transform: translate(-50%, -50%) rotate(-45deg);
+        -ms-transform: translate(-50%, -50%) rotate(-45deg);
+        -o-transform: translate(-50%, -50%) rotate(-45deg);
+      }
+      .player--2::after {
+        content: none;
+      }
+      .player--2::before {
+        width: 40px;
+        height: 40px;
+        border: 4px solid var(--bg-red-color-selected);
+        border-radius: 9999px;
+        transform: translate(-50%, -50%);
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        -o-transform: translate(-50%, -50%);
+      }
+      .selected--card {
+        pointer-events: none;
+        cursor: no-drop;
+        animation: show 0.5s ease-in-out;
+        -webkit-animation: show 0.5s ease-in-out;
+        -moz-animation: show 0.5s ease-in-out;
+        -ms-animation: show 0.5s ease-in-out;
+        -o-animation: show 0.5s ease-in-out;
+      }
+      @keyframes show {
+        0% {
+          transform: scale(1.1);
+        }
+        25% {
+          transform: scale(0);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        75% {
+          transform: scale(0.8);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+      .unselected--card::after {
+        content: none;
+      }
+      .unselected--card::before {
+        width: 40px;
+        height: 4px;
+        background-color: #9ca3af;
+        border-radius: 9999px;
+        transform: translate(-50%, -50%);
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        -o-transform: translate(-50%, -50%);
+      }
+    </style>
+  </head>
+  <body class="bg-red-500">
+    <section
+      class="
+        container
+        p-10
+        flex
+        items-center
+        justify-center
+        w-full
+        h-full
+        min-h-screen
+      "
+    >
+      <main class="w-96 rounded-2xl bg-white p-6 h-auto">
+        <header
+          class="
+            w-full
+            hidden
+            items-center
+            justify-between
+            mb-6
+            game--body--header
+          "
+        >
+          <div
+            class="
+              w-auto
+              py-1
+              px-4
+              rounded-lg
+              bg-red-500 bg-opacity-10
+              text-red-500
+              font-bold
+            "
+          >
+            <span class="ended-current-levels">1</span> -
+            <span class="total--levels">5</span>
+          </div>
+          <div class="flex items-center">
+            <span class="text-gray-700 font-semibold current--coins">0010</span>
+            <img
+              src="./image/money.png"
+              alt=""
+              width="20"
+              height="20"
+              class="verticle-middle mx-2"
+            />
+          </div>
+        </header>
+        <div
+          class="w-full hidden gap-4 grid-cols-3 cards--container game--body"
+        >
+          <div
+            class="w-full h-24 rounded-xl bg-red-500 relative single--card"
+          ></div>
+          <div
+            class="w-full h-24 rounded-xl bg-red-500 relative single--card"
+          ></div>
+          <div
+            class="w-full h-24 rounded-xl bg-red-500 relative single--card"
+          ></div>
+          <div
+            class="w-full h-24 rounded-xl bg-red-500 relative single--card"
+          ></div>
+          <div
+            class="w-full h-24 rounded-xl bg-red-500 relative single--card"
+          ></div>
+          <div
+            class="w-full h-24 rounded-xl bg-red-500 relative single--card"
+          ></div>
+          <div
+            class="w-full h-24 rounded-xl bg-red-500 relative single--card"
+          ></div>
+          <div
+            class="w-full h-24 rounded-xl bg-red-500 relative single--card"
+          ></div>
+          <div
+            class="w-full h-24 rounded-xl bg-red-500 relative single--card"
+          ></div>
+        </div>
+        <div
+          class="
+            w-full
+            h-auto
+            py-14
+            px-10
+            flex
+            items-center
+            justify-center
+            flex-col
+            loading--container
+          "
+        >
+          <svg
+            class="animate-spin h-6 w-6 text-red-500"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="3"
+            ></circle>
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
+          <span class="text-sm font-semibold p-4 text-gray-700">
+            Loading...
+          </span>
+        </div>
+        <div
+          class="
+            w-full
+            h-auto
+            p-4
+            pt-6
+            hidden
+            items-center
+            justify-center
+            flex-col
+            message--box
+          "
+        >
+          <span class="text-3xl mb-4"> </span>
+          <h3
+            class="text-base font-semibold mb-2 text-center text-gray-500 py-2"
+          ></h3>
+          <div class="msg text-blue-400 flex items-center mb-6"></div>
+          <button
+            class="
+              table
+              py-2
+              px-10
+              rounded-xl
+              bg-red-50
+              text-red-500
+              font-semibold
+            "
+          >
+            Play again
+          </button>
+        </div>
+      </main>
+    </section>
+    <!-- script file -->
+    <script src="./script/index.js"></script>
+    <!-- jquery -->
+    <!-- <script src="./jq.js"></script>
+    <script>
+      $(document).ready(function () {
+        $.ajax({
+          url: "db.json",
+          type: "GET",
+          dataType: "JSON",
+        }).done(function (res) {
+          $.each(res.arr, function (index, elem) {
+            $(".table tbody").append(
+              `<tr><td>${index + 1}</td><td>${elem.name}</td><td>${
+                elem.content
+              }</td></tr>`
+            );
+          });
+        });
+      });
+    </script> -->
+  </body>
+</html>
