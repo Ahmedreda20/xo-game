@@ -1,0 +1,115 @@
+*,
+*::after,
+*::before {
+  outline: none;
+  overscroll-behavior: contain;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+}
+:root {
+  --bg-red-color-selected: #ef4444;
+}
+body,
+html {
+  font-family: "Rubik", "Almarai", sans-serif;
+}
+.single--card {
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+}
+.single--card:hover {
+  transform: translateY(-4%);
+  -webkit-transform: translateY(-4%);
+  -moz-transform: translateY(-4%);
+  -ms-transform: translateY(-4%);
+  -o-transform: translateY(-4%);
+}
+.single--card span::after,
+.single--card span::before {
+  position: absolute;
+  content: "";
+  top: 50%;
+  left: 50%;
+}
+.player--1::after,
+.player--1::before {
+  height: 40px;
+  width: 4px;
+}
+.player--1::after {
+  border-radius: 9999px;
+  background-color: var(--bg-red-color-selected);
+  transform: translate(-50%, -50%) rotate(45deg);
+  -webkit-transform: translate(-50%, -50%) rotate(45deg);
+  -moz-transform: translate(-50%, -50%) rotate(45deg);
+  -ms-transform: translate(-50%, -50%) rotate(45deg);
+  -o-transform: translate(-50%, -50%) rotate(45deg);
+}
+.player--1::before {
+  border-radius: 9999px;
+  background-color: var(--bg-red-color-selected);
+  transform: translate(-50%, -50%) rotate(-45deg);
+  -webkit-transform: translate(-50%, -50%) rotate(-45deg);
+  -moz-transform: translate(-50%, -50%) rotate(-45deg);
+  -ms-transform: translate(-50%, -50%) rotate(-45deg);
+  -o-transform: translate(-50%, -50%) rotate(-45deg);
+}
+.player--2::after {
+  content: none;
+}
+.player--2::before {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--bg-red-color-selected);
+  border-radius: 9999px;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+}
+.selected--card {
+  pointer-events: none;
+  cursor: no-drop;
+  animation: show 0.5s ease-in-out;
+  -webkit-animation: show 0.5s ease-in-out;
+  -moz-animation: show 0.5s ease-in-out;
+  -ms-animation: show 0.5s ease-in-out;
+  -o-animation: show 0.5s ease-in-out;
+}
+@keyframes show {
+  0% {
+    transform: scale(1.1);
+  }
+  25% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  75% {
+    transform: scale(0.8);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.unselected--card::after {
+  content: none;
+}
+.unselected--card::before {
+  width: 40px;
+  height: 4px;
+  background-color: #9ca3af;
+  border-radius: 9999px;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+}

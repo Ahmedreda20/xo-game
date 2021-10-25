@@ -231,43 +231,50 @@ function soundEffect(sound) {
 
 // message box function to append any element
 function messageBoxContent(oldClass, newClass, icon, content, action) {
-  changeClasses(oldClass, newClass, gameMsg);
-  gameMsg.querySelector("span").innerHTML = icon;
-  gameMsg.querySelector("h3").innerHTML = content;
-  if (localStorage.date)
-    setInterval(() => {
-      handleSelectedDate(localStorage.date, gameMsg.querySelector("h3"));
-    }, 1000);
-  if (action) {
-    gameMsg.querySelector("button").setAttribute("disabled", "disabled");
-  } else {
-    gameMsg.querySelector("button").removeAttribute("disabled");
-    gameMsg.querySelector("button").onclick = () => {
-      if (Number(localStorage.getItem("level")) <= 5) {
-        window.location.reload();
-        localStorage.setItem(
-          "coins",
-          Math.floor(Number(localStorage.getItem("level") - 1) * 10)
-        );
-      } else {
-        localStorage.setItem("level", 1);
-        localStorage.setItem(
-          "coins",
-          Math.floor(Number(localStorage.getItem("level") - 1) * 10)
-        );
-      }
-    };
-  }
+  changeClasses(["hidden"], ["flex"], loading);
+  setTimeout(() => {
+    changeClasses(["flex"], ["hidden"], loading);
+    changeClasses(oldClass, newClass, gameMsg);
+    gameMsg.querySelector("span").innerHTML = icon;
+    gameMsg.querySelector("h3").innerHTML = content;
+    if (localStorage.date)
+      setInterval(() => {
+        handleSelectedDate(localStorage.date, gameMsg.querySelector("h3"));
+      }, 1000);
+    if (action) {
+      gameMsg.querySelector("button").setAttribute("disabled", "disabled");
+      gameMsg.querySelector("button").classList.add("hidden");
+    } else {
+      gameMsg.querySelector("button").removeAttribute("disabled");
+      gameMsg.querySelector("button").classList.remove("hidden");
+
+      gameMsg.querySelector("button").onclick = () => {
+        if (Number(localStorage.getItem("level")) <= 5) {
+          window.location.reload();
+          localStorage.setItem(
+            "coins",
+            Math.floor(Number(localStorage.getItem("level") - 1) * 10)
+          );
+        } else {
+          localStorage.setItem("level", 1);
+          localStorage.setItem(
+            "coins",
+            Math.floor(Number(localStorage.getItem("level") - 1) * 10)
+          );
+        }
+      };
+    }
+  }, 500);
 }
 
-//  get next date function from that date added to locaestorage
+//  get next date function from that date added to localeStorage
 function getNextDate(date) {
   let nextDay = new Date(date);
   nextDay.setDate(date.getDate() + 1);
   return nextDay;
 }
 
-// handle that current date from localestorage
+// handle that current date from localeStorage
 
 function handleSelectedDate(d, elem) {
   let selectedDate = getNextDate(new Date(d));
@@ -279,13 +286,13 @@ function handleSelectedDate(d, elem) {
   let mins = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
   let secs = Math.floor((time % (1000 * 60)) / 1000);
 
-  let finalTime = `<span class="inline-block  py-1 mx-2 px-4 rounded-lg bg-blue-50 text-blue-500 font-semibold">${
+  let finalTime = `<span class="inline-block  py-1 mx-2 px-4 rounded-lg bg-blue-100 text-blue-500 font-semibold">${
     hrs < 10 ? "0" + hrs : hrs
   }</span> : 
-  <span class="inline-block  py-1 mx-2 px-4 rounded-lg bg-blue-50 text-blue-500 font-semibold">${
+  <span class="inline-block  py-1 mx-2 px-4 rounded-lg bg-blue-100 text-blue-500 font-semibold">${
     mins < 10 ? "0" + mins : mins
   }</span> : 
-  <span class="inline-block  py-1 mx-2 px-4 rounded-lg bg-blue-50 text-blue-500 font-semibold">${
+  <span class="inline-block  py-1 mx-2 px-4 rounded-lg bg-blue-100 text-blue-500 font-semibold">${
     secs < 10 ? "0" + secs : secs
   }</span>`;
   document.querySelector(".msg").innerHTML = finalTime;
